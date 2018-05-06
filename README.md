@@ -1,1 +1,1 @@
-# CRP-clustering
+# Dirchlet Process Mixture Models Clustering
