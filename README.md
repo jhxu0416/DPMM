@@ -1,1 +1,1 @@
-# Dirchlet Process Mixture Models Clustering
+# Dirichlet Process Mixture Models Clustering
