@@ -72,8 +72,8 @@ $$
 \begin{split}
 P(Z_i=m|Z_{-i}) & = \frac{P(Z_i = m, Z_{-i})}{P(Z_{-i})} \\
 & = \frac{\int_{p}P(Z_i = m, Z_{-i}|p_1, \dots ,p_K) P (p_1, \dots ,p_K)dp}
-    {\int_{p}P(Z_{-i}|p_1, \dots ,p_K) P (p_1, \dots ,p_K) d p} \\
-& = \frac{\frac{\alpha}{K}+n_{m,-i}}{\alpha+N-1} \\
+    {\int_{p}P(Z_{-i}|p_1, \dots ,p_K) P (p_1, \dots ,p_K) d p}  \quad\quad\quad\quad\quad   [A.1]\\
+& = \frac{\frac{\alpha}{K}+n_{m,-i}}{\alpha+N-1}\\
 \end{split}
 $$
 
@@ -103,7 +103,7 @@ $$
         \alpha \int_{\mu} Pr(X_i|\mu) \cdot Pr(\mu|\mu_0) = \alpha \mathcal{N}(x_i; \mu_0, \sigma^2+\sigma^2_0)
 & new \; cluster \\
         \end{array}
-   \right. \\
+   \right.  \quad\quad\quad\quad\quad   [A.2]\\ 
 & where \quad \mu_{[m]} = \mu \; of \;cluster \;m
 \end{split}
 $$
@@ -112,11 +112,7 @@ $$
 
 #### Initialization
 
-Assign all data in one cluster s.t. $Z_1^{(0)}=Z_2^{(0)}=\dots=Z_n^{(0)}=1$, and $K^{(0)}=1$. Sample $\mu_{[1]}^{(0)}$  based on posterior of $\mu|X,Z$, where $n_l$ is count for all $Z_l = j$, detail discussed in appendix A.
-
-$$
-P(\mu_{[1]}^{(0)}|X_l,\; where \; Z_l^{(0)}=1) \sim \mathcal{N}( \frac{\frac{\sum x_{l}}{\sigma^2}+\frac{\mu_0}{\sigma_0^2}}{\frac{n_1^{(0)}}{\sigma^2}+\frac{1}{\sigma_0^2}}, [\frac{n_1^{(0)}}{\sigma^2}+\frac{1}{\sigma_0^2}]^{-1})
-$$
+Assign all data in one cluster s.t. $Z_1^{(0)}=Z_2^{(0)}=\dots=Z_n^{(0)}=1$, and $K^{(0)}=1$. Sample $\mu_{[1]}^{(0)}$  based on posterior of $\mu|X,Z$ ([A.3]), where $n_l$ is count for all $Z_l = j$, detail discussed in appendix A.
 
 #### Run detail
 
@@ -132,14 +128,14 @@ P(Z_i^{(t+1)} = m)
         \alpha \mathcal{N}(x_i; \mu_0, \sigma^2+\sigma^2_0)
 & new \; cluster \quad s.t. \quad m=K+1\\
         \end{array}
-   \right. \\
+   \right.   \quad\quad\quad\quad\quad   \\
 \end{split}
 $$
 
 $K=K+1$ each time if our sampled assignment is new. After sampling assignment, we sample $\mu_{[k]}^{(t+1)}$ for all $k \in [1,\dots,K]$ based on 
 
 $$
-P(\mu_{[k]}^{(t+1)}|X_l,\; where \; Z_l^{(t+1)}=1) \sim \mathcal{N}( \frac{\frac{\sum x_{l}}{\sigma^2}+\frac{\mu_0}{\sigma_0^2}}{\frac{n_k^{(t+1)}}{\sigma^2}+\frac{1}{\sigma_0^2}}, [\frac{n_k^{(t+1)}}{\sigma^2}+\frac{1}{\sigma_0^2}]^{-1})
+P(\mu_{[k]}^{(t+1)}|X_l,\; where \; Z_l^{(t+1)}=1) \sim \mathcal{N}( \frac{\frac{\sum x_{l}}{\sigma^2}+\frac{\mu_0}{\sigma_0^2}}{\frac{n_k^{(t+1)}}{\sigma^2}+\frac{1}{\sigma_0^2}}, [\frac{n_k^{(t+1)}}{\sigma^2}+\frac{1}{\sigma_0^2}]^{-1})  \quad\quad\quad\quad\quad   [A.3]
 $$
 
 
