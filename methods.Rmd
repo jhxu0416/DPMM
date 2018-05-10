@@ -135,11 +135,152 @@ $$
 $K=K+1$ each time if our sampled assignment is new. After sampling assignment, we sample $\mu_{[k]}^{(t+1)}$ for all $k \in [1,\dots,K]$ based on 
 
 $$
-P(\mu_{[k]}^{(t+1)}|X_l,\; where \; Z_l^{(t+1)}=1) \sim \mathcal{N}( \frac{\frac{\sum x_{l}}{\sigma^2}+\frac{\mu_0}{\sigma_0^2}}{\frac{n_k^{(t+1)}}{\sigma^2}+\frac{1}{\sigma_0^2}}, [\frac{n_k^{(t+1)}}{\sigma^2}+\frac{1}{\sigma_0^2}]^{-1})  \quad\quad\quad\quad\quad   [A.3]
+P(\mu_{[k]}^{(t+1)}|X_l,\; where \; Z_l^{(t+1)}=k) \sim \mathcal{N}( \frac{\frac{\sum x_{l}}{\sigma^2}+\frac{\mu_0}{\sigma_0^2}}{\frac{n_k^{(t+1)}}{\sigma^2}+\frac{1}{\sigma_0^2}}, [\frac{n_k^{(t+1)}}{\sigma^2}+\frac{1}{\sigma_0^2}]^{-1})  \quad\quad\quad\quad\quad   [A.3]
 $$
 
 
 # Appendix A
+
+## A.1
+$$
+\begin{split}
+P(Z_i=m|Z_{-i}) & = \frac{P(Z_i = m, Z_{-i})}{P(Z_{-i})} \\
+& = \frac{\int_{p}P(Z_i = m, Z_{-i}|p_1, \dots ,p_K) P (p_1, \dots ,p_K)dp}
+    {\int_{p}P(Z_{-i}|p_1, \dots ,p_K) P (p_1, \dots ,p_K) d p}  \\
+\end{split}
+$$
+
+$$
+P(Z_i = m, Z_{-i}|p_1, \dots ,p_K)= p_m^{n_{m,-i}+1} \prod_{k=1,k \neq m}^{K} p_k^{n_{k,-i}}
+$$
+
+### Numerator
+
+Therefore, we can write our numerator of the predictive distribution into the following form,
+
+$$
+\begin{split}
+numerator
+& = \int_{p}P(Z_i = m, Z_{-i}|p_1, \dots ,p_K) P (p_1, \dots ,p_K)d p\\
+& = \int_{p} [p_m^{n_{m,-i}+1} \prod_{k=1,k \neq m}^{K} p_k^{n_{k,-i}}] \frac{\Gamma(\sum_{k=1}^{K}\frac{\alpha}{K})}{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K})}\prod_{k=1}^{K}p_k^{\frac{\alpha}{K}-1}d p \\
+& = \frac{\Gamma(\sum_{k=1}^{K}\frac{\alpha}{K})}{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K})}\int_{p} [p_m^{\frac{\alpha}{K}+n_{m,-i}+1-1} \prod_{k=1,k \neq m}^{K} p_k^{\frac{\alpha}{K}+n_{k,-i}-1}] d p\\
+& = \frac{\Gamma(\sum_{k=1}^{K}\frac{\alpha}{K})}{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K})}
+\frac{\Gamma(\frac{\alpha}{K}+n_{m,-i}+1-1) \cdot \prod_{k=1}^{K}\Gamma(\frac{\alpha}{K}+n_{k,-i})}
+{\Gamma(\frac{\alpha}{K}+n_{m,-i}+1+\sum_{k=1,k \neq m}^{K}(\frac{\alpha}{K}+n_{k,-i}))} \cdot
+\end{split}
+$$
+
+where $[p_m^{\frac{\alpha}{K}+n_{m,-i}+1-1}   \prod_{k=1,k \neq m}^{K}p_k^{\frac{\alpha}{K}+n_{k,-i}-1}]$ is the kernel of $Dir(\frac{\alpha}{K}+n_{1,-i},\dots,\frac{\alpha}{K}+n_{m,-i}+1 ,\dots,\frac{\alpha}{K}+n_{K,-i})$.
+
+### Denominator
+
+$$
+\begin{split}
+denominator
+& = \int_{p}P(Z_{-i}|p_1, \dots ,p_K) P (p_1, \dots ,p_K)d p\\
+& = \int_{p} [ \prod_{k=1}^{K} p_k^{n_{k,-i}}] \frac{\Gamma(\sum_{k=1}^{K}\frac{\alpha}{K})}{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K})}\prod_{k=1}^{K}p_k^{\frac{\alpha}{K}-1}d p\\
+& = \frac{\Gamma(\sum_{k=1}^{K}\frac{\alpha}{K})}{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K})}
+\int_{p}  \prod_{k=1}^{K}p_k^{\frac{\alpha}{K}+n_{k,-i}-1}dp \\
+& = \frac{\Gamma(\sum_{k=1}^{K}\frac{\alpha}{K})}{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K})}
+\frac{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K}+n_{k,-i})}
+{\Gamma(\sum_{k=1}^{K}(\frac{\alpha}{K}+n_{k,-i}))}
+\int_{p} 
+\frac{\Gamma(\sum_{k=1}^{K}(\frac{\alpha}{K}+n_{k,-i}))}
+{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K}+n_{k,-i})} 
+\prod_{k=1}^{K}p_k^{\frac{\alpha}{K}+n_{k,-i}-1}d p \\
+\end{split}
+$$
+
+We recognize Dirichlet kernel $Dir(\frac{\alpha}{K}+n_{1,-i},\dots, \frac{\alpha}{K}+n_{K,-i})$
+
+$$
+denominator =\frac{\Gamma(\sum_{k=1}^{K}\frac{\alpha}{K})}{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K})}
+\frac{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K}+n_{k,-i})}
+{\Gamma(\sum_{k=1}^{K}(\frac{\alpha}{K}+n_{k,-i}))}
+$$
+
+### Predictive Distribution
+
+$$
+\begin{split}
+P(Z_i=m|Z_{-i}) & = \frac{numerator}{denominator} \\
+& = \frac{\frac{\Gamma(\sum_{k=1}^{K}\frac{\alpha}{K})}{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K})}
+\frac{\Gamma(\frac{\alpha}{K}+n_{m,-i}+1) \cdot \prod_{k=1}^{K}\Gamma(\frac{\alpha}{K}+n_{k,-i})}
+{\Gamma(\frac{\alpha}{K}+n_{m,-i}+1+\sum_{k=1,k \neq m}^{K}(\frac{\alpha}{K}+n_{k,-i}))}}
+{\frac{\Gamma(\sum_{k=1}^{K}\frac{\alpha}{K})}{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K})}
+\frac{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K}+n_{k,-i})}
+{\Gamma(\sum_{k=1}^{K}(\frac{\alpha}{K}+n_{k,-i}))}} \\
+& = \frac{
+\Gamma(\frac{\alpha}{K}+n_{m,-i}+1) \cdot \prod_{k=1}^{K}\Gamma(\frac{\alpha}{K}+n_{k,-i}) \cdot
+\Gamma(\sum_{k=1}^{K}(\frac{\alpha}{K}+n_{k,-i}))
+}{\prod_{k=1}^{K}\Gamma(\frac{\alpha}{K}+n_{k,-i}) \cdot 
+\Gamma(\frac{\alpha}{K}+n_{m,-i}+1+\sum_{k=1,k \neq m}^{K}(\frac{\alpha}{K}+n_{k,-i}))
+}\\
+& = \frac{
+\Gamma(\frac{\alpha}{K}+n_{m,-i}+1)  \cdot
+\Gamma(\sum_{k=1}^{K}(\frac{\alpha}{K}+n_{k,-i}))
+}{\Gamma(\frac{\alpha}{K}+n_{m,-i})
+\Gamma(1+\sum_{k=1}^{K}(\frac{\alpha}{K}+n_{k,-i}))
+} \\ 
+& = \frac{\frac{\alpha}{K}+n_{m,-i}}{\sum_{k=1}^{K}(\frac{\alpha}{K}+n_{k,-i})} 
+ = \frac{\frac{\alpha}{K}+n_{m,-i}}{\sum_{k=1}^{K}\frac{\alpha}{K}+\sum_{k=1}^{K}n_{k,-i}} \\
+& = \frac{\frac{\alpha}{K}+n_{m,-i}}{\alpha+n-1} \\
+\end{split}
+$$
+
+## A.2
+
+Given $X_i \sim \mathcal{N}(\mu_i,\sigma^2)$, and $\mu_i \sim \mathcal{N}(\mu_0,\sigma_0^2)$ 
+
+$$
+\begin{split}
+P(X_i| Z_i=new, \mu_i) &= \int_{\mu_i} Pr(X_i|\mu_i) \cdot Pr(\mu_i|\mu_0)d\mu_i \\
+&\propto \int_{\mu_i} exp[-\frac{1}{2\sigma^2}(x_i-\mu_i)^2] exp[-\frac{1}{2\sigma_0^2}(\mu_i-\mu_0)^2] d\mu_i \\
+& = \int_{\mu_i} exp[-\frac{1}{2}(\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2})(\mu_i-\frac{\frac{\mu_0}{\sigma_0^2}+\frac{x_i}{\sigma^2}}{\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}})^2] d\mu_i \cdot
+exp[-\frac{1}{2}(\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2})(\frac{\frac{\mu_0^2}{\sigma_0^2}+\frac{x_i^2}{\sigma^2}}{\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}} -
+\{ \frac{\frac{\mu_0}{\sigma_0^2}+\frac{x_i}{\sigma^2}}{\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}} \}^2)] 
+\end{split}
+$$
+
+We recognize normal kernel $\mathcal{N}(\frac{\frac{\mu_0}{\sigma_0^2}+\frac{x_i}{\sigma^2}}{\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}},(\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2})^{-1})$
+
+$$
+\begin{split}
+P(X_i| Z_i=new, \mu_i) 
+&\propto exp[-\frac{1}{2}(\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2})(\frac{\frac{\mu_0^2}{\sigma_0^2}+\frac{x_i^2}{\sigma^2}}{\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}} -
+\{ \frac{\frac{\mu_0}{\sigma_0^2}+\frac{x_i}{\sigma^2}}{\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}} \}^2] \\
+&= exp[-\frac{1}{2}(\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2})^{-1} ((\frac{\mu_0^2}{\sigma_0^2}+\frac{x_i^2}{\sigma^2})(\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2}) -
+(\frac{\mu_0}{\sigma_0^2}+\frac{x_i}{\sigma^2})^2)] \\
+&\propto exp[-\frac{1}{2}(\frac{1}{\sigma_0^2}+\frac{1}{\sigma^2})^{-1} (\frac{x_i^2}{\sigma^2 \sigma_0^2} -
+2\frac{x_i\mu_0}{\sigma^2\sigma_0^2})] \\
+& = exp[-\frac{1}{2}(\frac{\sigma^2 \sigma_0^2}{\sigma_0^2}+\frac{\sigma^2 \sigma_0^2}{\sigma^2})^{-1} (x_i^2 -
+2x_i\mu_0)] \\
+& \propto exp[-\frac{1}{2}\frac{1}{\sigma_0^2+\sigma^2} (x_i -\mu_0)^2] \\
+& \sim \mathcal{N}(\mu_0, \sigma^2+\sigma^2_0) \\
+\end{split}
+$$
+
+## A.3
+
+### Likelihood
+$$
+L(X_l|\mu_{[k]}) \propto \prod exp(\frac{1}{2\sigma^2}(x_l-\mu_{[k]})^2) = exp(\frac{1}{2\sigma^2}\sum (x_l-\mu_{[k]})^2)
+$$
+
+### Prior
+$$
+\pi(\mu_{[k]}|\mu_0,\sigma_0^2) \propto exp(\frac{1}{2\sigma_0^2} (\mu_{[k]}-\mu_0)^2)
+$$
+
+### Posterior
+$$
+\begin{split}
+P(\mu_{[k]}|X_l,\; where \; Z_l=k) &\propto L(X_l|\mu_{[k]})\pi(\mu_{[k]}|\mu_0,\sigma_0^2) \\
+&= exp(\frac{1}{2\sigma^2}\sum (x_l-\mu_{[k]})^2) exp(\frac{1}{2\sigma_0^2} (\mu_{[k]}-\mu_0)^2) \\
+& \propto exp[-\frac{1}{2}(\frac{1}{\sigma_0^2}+\frac{n_k}{\sigma^2})(\mu_{[k]}-\frac{\frac{\mu_0}{\sigma_0^2}+\frac{\sum x_l}{\sigma^2}}{\frac{1}{\sigma_0^2}+\frac{n_k}{\sigma^2}})^2] \\
+& \sim \mathcal{N}(\frac{\frac{\mu_0}{\sigma_0^2}+\frac{\sum x_l}{\sigma^2}}{\frac{1}{\sigma_0^2}+\frac{n_k}{\sigma^2}}, (\frac{1}{\sigma_0^2}+\frac{n_k}{\sigma^2})^{-1})
+\end{split}
+$$
 
 # Reference
 
