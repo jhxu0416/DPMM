@@ -72,7 +72,7 @@ $$
 \begin{split}
 P(Z_i=m|Z_{-i}) & = \frac{P(Z_i = m, Z_{-i})}{P(Z_{-i})} \\
 & = \frac{\int_{p}P(Z_i = m, Z_{-i}|p_1, \dots ,p_K) P (p_1, \dots ,p_K)dp}
-    {\int_{p}P(Z_{-i}|p_1, \dots ,p_K) P (p_1, \dots ,p_K) d p}  \quad\quad\quad\quad\quad   [A.1]\\
+    {\int_{p}P(Z_{-i}|p_1, \dots ,p_K) P (p_1, \dots ,p_K) d p}  \quad\quad\quad\quad\quad   [B.1]\\
 & = \frac{\frac{\alpha}{K}+n_{m,-i}}{\alpha+N-1}\\
 \end{split}
 $$
@@ -103,7 +103,7 @@ $$
         \alpha \int_{\mu} Pr(X_i|\mu) \cdot Pr(\mu|\mu_0) = \alpha \mathcal{N}(x_i; \mu_0, \sigma^2+\sigma^2_0)
 & new \; cluster \\
         \end{array}
-   \right.  \quad\quad\quad\quad\quad   [A.2]\\ 
+   \right.  \quad\quad\quad\quad\quad   [B.2]\\ 
 & where \quad \mu_{[m]} = \mu \; of \;cluster \;m
 \end{split}
 $$
@@ -135,13 +135,13 @@ $$
 $K=K+1$ each time if our sampled assignment is new. After sampling assignment, we sample $\mu_{[k]}^{(t+1)}$ for all $k \in [1,\dots,K]$ based on 
 
 $$
-P(\mu_{[k]}^{(t+1)}|X_l,\; where \; Z_l^{(t+1)}=k) \sim \mathcal{N}( \frac{\frac{\sum x_{l}}{\sigma^2}+\frac{\mu_0}{\sigma_0^2}}{\frac{n_k^{(t+1)}}{\sigma^2}+\frac{1}{\sigma_0^2}}, [\frac{n_k^{(t+1)}}{\sigma^2}+\frac{1}{\sigma_0^2}]^{-1})  \quad\quad\quad\quad\quad   [A.3]
+P(\mu_{[k]}^{(t+1)}|X_l,\; where \; Z_l^{(t+1)}=k) \sim \mathcal{N}( \frac{\frac{\sum x_{l}}{\sigma^2}+\frac{\mu_0}{\sigma_0^2}}{\frac{n_k^{(t+1)}}{\sigma^2}+\frac{1}{\sigma_0^2}}, [\frac{n_k^{(t+1)}}{\sigma^2}+\frac{1}{\sigma_0^2}]^{-1})  \quad\quad\quad\quad\quad   [B.3]
 $$
 
 
-# Appendix A
+# Appendix B
 
-## A.1
+## B.1
 $$
 \begin{split}
 P(Z_i=m|Z_{-i}) & = \frac{P(Z_i = m, Z_{-i})}{P(Z_{-i})} \\
@@ -228,7 +228,7 @@ P(Z_i=m|Z_{-i}) & = \frac{numerator}{denominator} \\
 \end{split}
 $$
 
-## A.2
+## B.2
 
 Given $X_i \sim \mathcal{N}(\mu_i,\sigma^2)$, and $\mu_i \sim \mathcal{N}(\mu_0,\sigma_0^2)$ 
 
@@ -260,7 +260,7 @@ P(X_i| Z_i=new, \mu_i)
 \end{split}
 $$
 
-## A.3
+## B.3
 
 ### Likelihood
 $$
